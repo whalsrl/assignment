@@ -77,122 +77,122 @@ DFT를 일반화한 식을 통해 2가지의 특성을 확인할 수 있다.<br/
 **코드 구현**<br/>
 <br/>
 
-import java.lang.*;
-public class Main {
-    public static Complex[] temp;
+    import java.lang.*;
+    public class Main {
+        public static Complex[] temp;
+        
+        public static void DFT(Complex c[]) {
+            int N = c.length;
     
-    public static void DFT(Complex c[]) {
-        int N = c.length;
-
-        for(int k = 0; k < N; k++) {
-            for(int n = 0; n < N; n++) {
-                double theta = (-2) * Math.PI * k * n / N;
-                Complex sc = new Complex(Math.cos(theta), Math.sin(theta));
-                temp[k] = temp[k].add(sc.mul(c[n]));
+            for(int k = 0; k < N; k++) {
+                for(int n = 0; n < N; n++) {
+                    double theta = (-2) * Math.PI * k * n / N;
+                    Complex sc = new Complex(Math.cos(theta), Math.sin(theta));
+                    temp[k] = temp[k].add(sc.mul(c[n]));
+                }
             }
         }
-    }
-    public static Complex[] FFT(Complex c[]) {
-        int N = c.length;
-        
-        if(N == 1) {
-            return new Complex[] {c[0]};
+        public static Complex[] FFT(Complex c[]) {
+            int N = c.length;
+            
+            if(N == 1) {
+                return new Complex[] {c[0]};
+            }
+            
+            Complex even[] = new Complex[N / 2];
+            Complex odd[] = new Complex[N / 2];
+            
+            for(int i = 0; i < N / 2; i++) {
+                even[i] = c[2 * i];
+                odd[i] = c[2 * i + 1];
+            }
+            
+            Complex[] a = FFT(even);
+            Complex[] b = FFT(odd);
+            
+            Complex[] result = new Complex[N];
+            for(int k = 0; k < N / 2; k++) {
+                double theta = (-2) * Math.PI * k / N;
+                Complex sc = new Complex(Math.cos(theta), Math.sin(theta));
+                result[k] = a[k].add(sc.mul(b[k]));
+                result[k + N / 2] = a[k].sub(sc.mul(b[k]));
+            }
+            
+            return result;
         }
         
-        Complex even[] = new Complex[N / 2];
-        Complex odd[] = new Complex[N / 2];
-        
-        for(int i = 0; i < N / 2; i++) {
-            even[i] = c[2 * i];
-            odd[i] = c[2 * i + 1];
+        public static void printArray(Complex[] c) {
+            for (int i = 0; i < c.length; i++)
+                System.out.print(c[i] + " ");
+            System.out.println();
         }
         
-        Complex[] a = FFT(even);
-        Complex[] b = FFT(odd);
+        public static void main(String[] args) {
+            Complex[] src = new Complex[8];
+            temp = new Complex[src.length];
+            for(int i = 0; i < src.length; i++) {
+                temp[i] = new Complex(0.0, 0.0);
+            }
+            
+            src[0] = new Complex(1.0, 2.0);
+            src[1] = new Complex(2.0, 1.0);
+            src[2] = new Complex(3.0, 9.0);
+            src[3] = new Complex(4.0, 6.0);
+            src[4] = new Complex(5.0, 10.0);
+            src[5] = new Complex(6.0, 1.0);
+            src[6] = new Complex(7.0, 10.0);
+            src[7] = new Complex(8.0, 4.0);
+            
+            printArray(src);
+            DFT(src);
+            printArray(temp);
+            printArray(FFT(src));
+        }
+    }
+    
+    class Complex {
+        double re;
+        double im;
         
-        Complex[] result = new Complex[N];
-        for(int k = 0; k < N / 2; k++) {
-            double theta = (-2) * Math.PI * k / N;
-            Complex sc = new Complex(Math.cos(theta), Math.sin(theta));
-            result[k] = a[k].add(sc.mul(b[k]));
-            result[k + N / 2] = a[k].sub(sc.mul(b[k]));
+        public Complex(double real, double imag) {
+            re = real;
+            im = imag;
         }
         
-        return result;
-    }
-    
-    public static void printArray(Complex[] c) {
-        for (int i = 0; i < c.length; i++)
-            System.out.print(c[i] + " ");
-        System.out.println();
-    }
-    
-    public static void main(String[] args) {
-        Complex[] src = new Complex[8];
-        temp = new Complex[src.length];
-        for(int i = 0; i < src.length; i++) {
-            temp[i] = new Complex(0.0, 0.0);
+        public Complex add(Complex b) {
+            Complex a = this;
+            double real = a.re + b.re;
+            double imag = a.im + b.im;
+            return new Complex(real, imag);
         }
         
-        src[0] = new Complex(1.0, 2.0);
-        src[1] = new Complex(2.0, 1.0);
-        src[2] = new Complex(3.0, 9.0);
-        src[3] = new Complex(4.0, 6.0);
-        src[4] = new Complex(5.0, 10.0);
-        src[5] = new Complex(6.0, 1.0);
-        src[6] = new Complex(7.0, 10.0);
-        src[7] = new Complex(8.0, 4.0);
+        public Complex sub(Complex b) {
+            Complex a = this;
+            double real = a.re - b.re;
+            double imag = a.im - b.im;
+            return new Complex(real, imag);
+        }
         
-        printArray(src);
-        DFT(src);
-        printArray(temp);
-        printArray(FFT(src));
-    }
-}
-
-class Complex {
-    double re;
-    double im;
-    
-    public Complex(double real, double imag) {
-        re = real;
-        im = imag;
-    }
-    
-    public Complex add(Complex b) {
-        Complex a = this;
-        double real = a.re + b.re;
-        double imag = a.im + b.im;
-        return new Complex(real, imag);
-    }
-    
-    public Complex sub(Complex b) {
-        Complex a = this;
-        double real = a.re - b.re;
-        double imag = a.im - b.im;
-        return new Complex(real, imag);
-    }
-    
-    public Complex mul(Complex b) {
-        Complex a = this;
-        double real = a.re * b.re - a.im * b.im;
-        double imag = a.re * b.im + a.im * b.re;
-        return new Complex(real, imag);
-    }
-    
-    public String toString() {
-        if (im == 0) {
-            return String.format("[%.2f]", re);
+        public Complex mul(Complex b) {
+            Complex a = this;
+            double real = a.re * b.re - a.im * b.im;
+            double imag = a.re * b.im + a.im * b.re;
+            return new Complex(real, imag);
         }
-        if (re == 0) {
-            return String.format("[%.2f i]", im);
+    
+        public String toString() {
+            if (im == 0) {
+                return String.format("[%.2f]", re);
+            }
+            if (re == 0) {
+                return String.format("[%.2f i]", im);
+            }
+            if (im < 0) {
+                return String.format("[%.2f - %.2f i]", re, (-1) * im);
+            }
+            return String.format("[%.2f + %.2f i]", re, im);
         }
-        if (im < 0) {
-            return String.format("[%.2f - %.2f i]", re, (-1) * im);
-        }
-        return String.format("[%.2f + %.2f i]", re, im);
     }
-}
 
 <br/>
 =============
