@@ -76,7 +76,7 @@ DFT를 일반화한 식을 통해 2가지의 특성을 확인할 수 있다.<br/
 <br/>
 **코드 구현**<br/>
 <br/>
-```
+
 import java.lang.*;
 public class Main {
     public static Complex[] temp;
