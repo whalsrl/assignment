@@ -78,8 +78,6 @@ DFT를 일반화한 식을 통해 2가지의 특성을 확인할 수 있다.<br/
 <br/>
 ```
 import java.lang.*;
-```
-```
 public class Main {
     public static Complex[] temp;
 
@@ -150,9 +148,7 @@ public class Main {
         printArray(temp);
         printArray(FFT(src));
     }
-    
-
-```}
+}
 
 class Complex {
     double re;
@@ -196,7 +192,6 @@ class Complex {
         }
         return String.format("[%.2f + %.2f i]", re, im);
     }
-```
 }
 ```
 <br/>
