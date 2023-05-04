@@ -150,8 +150,6 @@ public class Main {
         printArray(FFT(src));
     }
 }
-```
-```
 class Complex {
     double re;
     double im;
