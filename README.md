@@ -2,7 +2,7 @@
 =============
 
 ##고속 푸리에 변환(Fast Fourier Transform, FFT)이란?
-: 이산 푸리에 변환(Discrete Fourier Transform, DFT)과 역변환을 고속으로 수행하는 알고리즘.___
+: 이산 푸리에 변환(Discrete Fourier Transform, DFT)과 역변환을 고속으로 수행하는 알고리즘.   
 * DFT: 이산적인, 즉 불연속적인 입력 신호에 대한 푸리에 변환(Fourier Transform).___
 * FT: 시간이나 공간에 대한 함수를 시간 또는 공간 주파수 성분으로 분해하는 변환.___
 ___
